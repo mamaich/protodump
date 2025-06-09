@@ -1,16 +1,4 @@
 # protodump
 
-Protodump is a utility to dump all Protobuf file descriptors from a given binary as *.proto files:
-
-![Demo](https://raw.githubusercontent.com/arkadiyt/protodump/main/demo/demo.gif)
-
-## Usage
-
-```
-go install github.com/arkadiyt/protodump/cmd/protodump@latest
-./protodump -file <file to extract from> -output <output directory>
-```
-
-## Getting in touch
-
-Feel free to contact me on Signal: @arkadiyt.01
+Немного дополненная версия protodump отсюда - https://github.com/arkadiyt/protodump 
+Использую для дампа protobuf из прошивок устрйоств Яндекса, в частности maind, quasar_dasemons.so и некоторых APK.
