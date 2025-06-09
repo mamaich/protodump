@@ -44,6 +44,7 @@ func ScanFile(path string) ([][]byte, error) {
 }
 
 func Scan(data []byte) [][]byte {
+        offs := 0
 	results := make([][]byte, 0)
 
 	for {
@@ -59,6 +60,7 @@ func Scan(data []byte) [][]byte {
 		start := bytes.LastIndexByte(data[:index], magicByte)
 		if start == -1 {
 			data = data[index+1:]
+			offs = offs+index+1
 			continue
 		}
 
@@ -70,8 +72,8 @@ func Scan(data []byte) [][]byte {
 
 		length := consumeBytes(data, start)
 		results = append(results, data[start:start+length])
-		data = data[start+length:]
+		data = data[index+1:]
+		offs = offs+index+1
 	}
-
 	return results
 }
