@@ -117,23 +117,25 @@ func (pd *ProtoDefinition) writeOneof(oneof protoreflect.OneofDescriptor) {
 		pd.write(" {\n")
 		pd.indent()
 		for i := 0; i < oneof.Fields().Len(); i++ {
-			pd.writeField(oneof.Fields().Get(i))
+			pd.writeField(oneof.Fields().Get(i),1)
 		}
 		pd.dedent()
 		pd.writeIndented("}\n")
 	}
 }
 
-func (pd *ProtoDefinition) writeField(field protoreflect.FieldDescriptor) {
+func (pd *ProtoDefinition) writeField(field protoreflect.FieldDescriptor, is_oneof ...int) {
 	// TODO need to handle options
-	pd.writeIndented("")
-	if field.HasOptionalKeyword() {
-		pd.write("optional ")
-	} else if field.Cardinality().String() == "repeated" {
-		pd.write("repeated ")
-	} else if field.Cardinality().String() == "required" && pd.descriptor.Syntax().String() == "proto2" {
-		pd.write("required ")
-	}
+        pd.writeIndented("")
+        if len(is_oneof) < 1 {
+                if field.HasOptionalKeyword() {
+                        pd.write("optional ")
+                } else if field.Cardinality().String() == "repeated" {
+                        pd.write("repeated ")
+                } else if field.Cardinality().String() == "required" && pd.descriptor.Syntax().String() == "proto2" {
+                        pd.write("required ")
+                }
+        }
 	pd.writeType(field)
 	pd.write(" ")
 	pd.write(string(field.Name()))
@@ -150,6 +152,17 @@ func (pd *ProtoDefinition) writeField(field protoreflect.FieldDescriptor) {
 			pd.write(field.Default().String())
 		}
 
+                if !field.HasJSONName() {
+                        pd.write("]")
+                }
+        }
+        if field.HasJSONName() {
+                if !field.HasDefault() {
+                        pd.write(" [")
+                } else {
+                        pd.write(", ")
+                }
+                pd.write(fmt.Sprintf("json_name=\"%s\"", field.JSONName()))
 		pd.write("]")
 	}
 	pd.write(";\n")
