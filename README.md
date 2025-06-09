@@ -1,4 +1,7 @@
 # protodump
 
-Немного дополненная версия protodump отсюда - https://github.com/arkadiyt/protodump 
-Использую для дампа protobuf из прошивок устрйоств Яндекса, в частности maind, quasar_dasemons.so и некоторых APK.
+Дополненная версия protodump отсюда - https://github.com/arkadiyt/protodump
+
+Изменен алгоритм сканирования (теперь находит пустые протобуфы). Добавлена поддержка "json_name=".
+
+Использую для дампа protobuf из прошивок устройств Яндекса, в частности maind, libquasar_daemons.so и некоторых APK.
